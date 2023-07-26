@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../../context/User.context'
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const ProductsHandler = () => {
     const { state } = useContext(AuthContext);
@@ -8,7 +9,8 @@ const ProductsHandler = () => {
     console.log(updatedData, "updatedData")
     const [user, setUser] = useState({});
     const [userAddedProduct, setUserAddedProduct] = useState([]);
-    // console.log(userAddedProduct, "userAddedProduct from backend")
+    const router = useNavigate()
+    console.log(userAddedProduct, "userAddedProduct from backend")
 
     useEffect(() => {
         if (state.user) {
@@ -30,15 +32,6 @@ const ProductsHandler = () => {
         }
     }, [user])
 
-    const handleChange = (event) => {
-        setUpdatedData({ ...updatedData, [event.target.name]: event.target.value })
-    }
-
-    const updateProduct = async (event, id) => {
-        event.preventDefault();
-        alert(id)
-    }
-
     return (
         <div>
             <h1>Here is Your selling products</h1>
@@ -46,13 +39,9 @@ const ProductsHandler = () => {
                 {userAddedProduct && userAddedProduct.map((pro) => (
                     <div style={{ width: "20%", height: "400px", border: "2px solid black", paddingBottom: "30px" }}>
                         <img style={{ width: "100%", height: "75%" }} src={pro.image} />
-                        <form onSubmit={(event) => updateProduct(event, pro._id)}>
-                            <label>Name </label>
-                            <h2> {pro.name} </h2><br />
-                            <label>Price </label>
-                            <h2> {pro.price}  </h2><br />
-                            <button type='submit'>Update</button>
-                        </form>
+                        <h4 style={{ marginBottom: "-40px" }}>Name : {pro.name} </h4><br />
+                        <h4 style={{ marginBottom: "-20px" }}>Price: {pro.price}  </h4><br />
+                        <button onClick={() => router(`/update-product/${pro._id}`)}>Update</button>
                     </div >
                 ))}
             </div >

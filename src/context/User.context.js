@@ -56,8 +56,6 @@ const AuthProvider = ({ children }) => {
         }
         checkUser();
 
-
-
     }, [])
 
     return (
